@@ -1,0 +1,104 @@
+<?php
+/**
+ * undocumented 
+ *
+ * @author Allan
+ */
+namespace repository;
+/**
+* 
+* Um repostório é uma camada central onde os dados fazem contato com o Banco de
+* Dados para toda a interação entre Da manipulação de Dados
+* 
+* @package repository
+*/
+class Repository implements 
+{
+	/**
+	 * Nome do banco de dados que os dados são manipulados
+	 * 
+	 * @var string
+	 */
+	private $dbName = 'teste';
+	
+	/**
+	 * Usuario do banco de dados
+	 * @var string
+	 */
+	private $user = 'allan';
+		
+	/**
+	 * Senha do banco de Dados
+	 * 
+	 * @var string
+	 */
+	private $password = '125125';
+	
+	/**
+	 * Host onde o banco de dados está armazenado
+	 *
+	 * @var string
+	 */
+	private $host = 'localhost';
+	
+	/**
+	 * Tecnologia do Banco de Dados
+	 *
+	 * @var string
+	 */
+	private $engine = 'mysql';
+	
+	/**
+	 * Banco de Dados para manipulação de dados
+	 *
+	 * @var PDO
+	 */
+	private $db;
+	
+	/**
+	 * Único objeto que representa o um repositorio
+	 *
+	 * @var string
+	 */
+	private static $singleton;
+	
+	private function __construct()
+	{
+		// Informação requerida para conectar um Banco de Dados PDO
+		$dsn = "{$this->engine}:dbname={$this->dbName};host={$this->host}";
+		
+		try {
+			
+			$this->db = new \PDO($dsn, $this->user, $this->password);
+		
+		} catch(PDOException $e) {
+			
+			echo "Não foi possível conectar o Banco de dados </br>";
+			throw new PDOException();
+		}
+	}
+	
+	/**
+	 * Carrega o modelo de acordo com o nome passado
+	 *
+	 * @return Model
+	 */
+	public function loadModel($model)
+	{
+		//TODO: implementar
+	}
+	
+	/**
+	 * Retorna um repositorio
+	 *
+	 * @return Repository
+	 */
+	public static function getSingleton()
+	{
+		if (self::$singleton === null)
+			self::$singleton = new Repository();
+		
+		return self::$singleton;
+	}
+}
+?>
